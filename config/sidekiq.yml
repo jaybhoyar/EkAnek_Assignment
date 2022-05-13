@@ -1,0 +1,23 @@
+default: &default
+  :concurrency: 5
+
+development:
+  <<: *default
+
+heroku:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default
+
+queues:
+  - mailers
+  - default
+  - action_mailbox_routing
+  - action_mailbox_incineration
+  - active_storage_analysis
+  - active_storage_purge
+  - low
