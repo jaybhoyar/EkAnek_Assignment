@@ -12,6 +12,12 @@ GIT
       rubocop
       smart_properties
 
+GIT
+  remote: https://github.com/rails-api/active_model_serializers.git
+  revision: beeb216fab286537389788349c513264325393ef
+  specs:
+    active_model_serializers (1.0.0.pre.dev)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -188,8 +194,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    mail_interceptor (0.0.7)
-      activesupport
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
@@ -348,6 +352,7 @@ PLATFORMS
   x86_64-darwin-21
 
 DEPENDENCIES
+  active_model_serializers!
   activeadmin
   autoprefixer-rails
   bootsnap (>= 1.9.4)
@@ -363,7 +368,6 @@ DEPENDENCIES
   jbuilder (>= 2.7)
   letter_opener
   listen (~> 3.2)
-  mail_interceptor
   minitest
   minitest-ci
   pg

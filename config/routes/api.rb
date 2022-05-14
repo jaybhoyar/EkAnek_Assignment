@@ -7,6 +7,8 @@ namespace :api, defaults: { format: :json } do
       delete "logout", to: "sessions#destroy", as: "logout"
     end
 
+    resources :records, only: [:index, :create, :destroy]
+
     resources :users, only: [:show, :create, :update, :destroy], constraints: { id: /.*/ }
   end
 end

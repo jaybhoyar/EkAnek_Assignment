@@ -3,20 +3,18 @@ import React from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 
 import Sidebar from "components/Common/Sidebar";
-import {
-  DASHBOARD_ROUTES,
-  DASHBOARD_PATH,
-} from "components/routeConstants";
+
+import Profile from "./Settings/Profile";
+import Records from "./Records";
 
 const Dashboard = () => (
-  <div className="flex h-screen w-full">
-    <Sidebar />
-    <Switch>
-      {DASHBOARD_ROUTES.map(({ path, component }) => (
-        <Route exact key={path} path={path} component={component} />
-      ))}
-    </Switch>
-  </div>
+	<div className="flex h-screen w-full">
+		<Sidebar />
+		<Switch>
+			<Route exact path="/my/profile" component={Profile} />
+			<Route exact path="/" component={Records} />
+		</Switch>
+	</div>
 );
 
 export default Dashboard;

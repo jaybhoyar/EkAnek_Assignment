@@ -1,4 +1,4 @@
-# EkAnek Assignment
+# Ekanek Project Assignment
 
 
 ## Local Development Setup

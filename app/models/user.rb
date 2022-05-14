@@ -12,6 +12,8 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :password_confirmation, presence: true, on: :create
 
+  has_many :records, dependent: :delete_all
+
   def name
     [first_name, last_name].join(" ").strip
   end

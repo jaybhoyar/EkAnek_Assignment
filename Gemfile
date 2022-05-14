@@ -50,6 +50,8 @@ gem "bootsnap", ">= 1.9.4", require: false
 # Background jobs
 gem "sidekiq"
 
+gem "active_model_serializers", git: "https://github.com/rails-api/active_model_serializers.git"
+
 group :development, :test do
   # Rails integration for factory-bot
   gem "factory_bot_rails"

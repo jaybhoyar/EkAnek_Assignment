@@ -9,12 +9,7 @@ import { isPresent } from "utils";
 import { setAuthHeaders, registerIntercepts } from "apis/axios";
 import { initializeLogger } from "common/logger";
 import PrivateRoute from "components/Common/PrivateRoute";
-import {
-  AUTH_ROUTES,
-  PRIVATE_ROUTES,
-  DASHBOARD_PATH,
-  LOGIN_PATH,
-} from "components/routeConstants";
+
 import { useAuthState, useAuthDispatch } from "contexts/auth";
 import { useUserDispatch, useUserState } from "contexts/user";
 import {
@@ -22,6 +17,8 @@ import {
   getFromLocalStorage,
 } from "utils/storage";
 import Login from "./Authentication/Login";
+import Signup from "./Authentication/Signup";
+import Dashboard from "./Dashboard";
 
 const Main = props => {
   const [loading, setLoading] = useState(true);
@@ -60,24 +57,15 @@ const Main = props => {
     <BrowserRouter>
       <ToastContainer />
       <Switch>
-        {AUTH_ROUTES.map(route => (
-          <Route
-            exact
-            key={route.path}
-            path={route.path}
-            component={route.component}
-          />
-        ))}
-        {!isLoggedIn && <Route exact path={DASHBOARD_PATH} component={Login} />}
-        {PRIVATE_ROUTES.map(route => (
-          <PrivateRoute
-            key={route.path}
-            path={route.path}
-            redirectRoute={LOGIN_PATH}
-            condition={isLoggedIn}
-            component={route.component}
-          />
-        ))}
+        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/login" component={Login} />
+        {!isLoggedIn && <Route exact path="/login" component={Login} />}
+        <PrivateRoute
+          path="/"
+          redirectRoute="/login"
+          condition={isLoggedIn}
+          component={Dashboard}
+        />
       </Switch>
     </BrowserRouter>
   );
