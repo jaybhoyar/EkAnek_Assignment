@@ -26,6 +26,9 @@ gem "puma"
 # JSON builder
 gem "jbuilder", ">= 2.7"
 
+# For File Type
+gem 'mimemagic'
+
 # Authentication
 gem "devise", "~> 4.7"
 

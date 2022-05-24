@@ -19,6 +19,7 @@ import {
 import Login from "./Authentication/Login";
 import Signup from "./Authentication/Signup";
 import Dashboard from "./Dashboard";
+import PublicUrl from "./PublicUrl";
 
 const Main = props => {
   const [loading, setLoading] = useState(true);
@@ -59,6 +60,7 @@ const Main = props => {
       <Switch>
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/login" component={Login} />
+        <Route path="/:slug" component={PublicUrl} />
         {!isLoggedIn && <Route exact path="/login" component={Login} />}
         <PrivateRoute
           path="/"

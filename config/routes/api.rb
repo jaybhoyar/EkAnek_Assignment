@@ -8,6 +8,7 @@ namespace :api, defaults: { format: :json } do
     end
 
     resources :records, only: [:index, :create, :destroy]
+    resources :records, only: [:show], param: :slug
 
     resources :users, only: [:show, :create, :update, :destroy], constraints: { id: /.*/ }
   end

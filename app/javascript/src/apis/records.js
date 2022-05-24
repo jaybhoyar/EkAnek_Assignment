@@ -9,11 +9,14 @@ const create = (payload) => axios.post(recordsBaseUrl, payload, {
       "Content-Type": "multipart/form-data",
     },
   });
+const show = (recordSlug) => axios.get(`${recordsBaseUrl}/${recordSlug}`);
+
 
 const destroy = (recordId) => axios.delete(`${recordsBaseUrl}/${recordId}`);
 
 export default {
 	fetch,
 	create,
+  show,
 	destroy,
 };

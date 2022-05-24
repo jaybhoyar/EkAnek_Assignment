@@ -1,28 +1,39 @@
 # frozen_string_literal: true
 
 class Api::V1::RecordsController < Api::V1::BaseController
-  include Rails.application.routes.url_helpers
+  # include ActiveStorage::Downloading
+  skip_before_action :authenticate_user!, only: :show
+  skip_before_action :authenticate_user_using_x_auth_token, only: :show
+  before_action :find_public_record!, only: [:show]
   before_action :load_record!, only: [:destroy]
 
   def index
-    records = []
-    current_user.records.all.each do |record|
-      file_details = file_path_with_name(record.file)
-      records << Hash[record: record, file_details: file_details]
+    records = current_user.records.all.map do |record|
+      record.as_json.merge({ filename: record.filename})
     end
     render status: :ok, json: { records: records }
   end
 
+  def show
+    if @public_record.present?
+      redirect_to Rails.application.routes.url_helpers.rails_blob_path(@record.file, disposition: "attachment", host: "http://localhost:3000")
+    else
+      render status: :unprocessable_entity, json: { error: @record.errors }
+    end
+  end
+
   def create
     record = current_user.records.new(record_params)
+    record.slug = generate_slug
     if record.save
-      render status: :ok, json: { notice: "File successfully uploaded" }
+      render status: :ok, json: { notice: "File uploaded successfully"}
     else
       render status: :unprocessable_entity, json: { error: record.errors }
     end
   end
 
   def destroy
+    @record.file.purge
     if @record.destroy
       render status: :ok, json: { notice: "Record has been removed successfully." }
     else
@@ -40,11 +51,14 @@ class Api::V1::RecordsController < Api::V1::BaseController
       @record = current_user.records.find(params[:id])
     end
 
-    def file_path_with_name(file)
-      {
-        name: file.filename,
-        url: rails_blob_path(file, only_path: true),
-        full_path: url_for(file),
-      }
+    def find_public_record!
+      @public_record = Record.find_by_slug(params[:slug])
+    end
+
+    def generate_slug
+      loop do
+        new_slug = [*("a".."z"), *("0".."9")].shuffle[0, 6].join
+        break new_slug unless Record.where(slug: new_slug).exists?
+      end
     end
 end
