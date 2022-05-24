@@ -1,23 +1,21 @@
-# Ekanek Project Assignment
+# Ekanek Assignment
 
+File Upload Platform
 
 ## Local Development Setup
 
 Clone this repo by running `git clone https://github.com/jaybhoyar/ekanek.git`.
 
-Install the [Node.js](https://nodejs.org) version `v16.5` which we have specified inside the `.node-version` file.
+To Setup the application in your local machine ensure that you have `rbenv`, `nvm`, `yarn`, `node`, `redis` and `postgresql` is working properly.
 
-```bash
-nvm install
+Use the following commands to set up and start the application.
+
 ```
-
-Make sure that [yarn](https://yarnpkg.com) is installed with it as well.
-
-```bash
 ./bin/setup
-```
 
-Start the server by executing following command.
+foreman start -f Procfile.dev
+```
+For ruby versions not supporting foreman:
 
 ```bash
 bundle exec rails server

@@ -4,7 +4,7 @@ class Api::V1::RecordsController < Api::V1::BaseController
   # include ActiveStorage::Downloading
   skip_before_action :authenticate_user!, only: :show
   skip_before_action :authenticate_user_using_x_auth_token, only: :show
-  before_action :find_public_record!, only: [:show]
+  before_action :find_record!, only: [:show]
   before_action :load_record!, only: [:destroy]
 
   def index
@@ -16,9 +16,15 @@ class Api::V1::RecordsController < Api::V1::BaseController
 
   def show
     if @public_record.present?
-      redirect_to Rails.application.routes.url_helpers.rails_blob_path(@record.file, disposition: "attachment", host: "http://localhost:3000")
+      blob = @public_record.file.blob
+      filename = blob.filename.to_s
+      fn = Rails.root.join('tmp', filename)
+      File.open(fn, "wb+") do |file| 
+        blob.download { |chunk| file.write(chunk) }
+      end
+      render status: :ok, json: { url: Rails.root.join("tmp", filename), filename: filename }
     else
-      render status: :unprocessable_entity, json: { error: @record.errors }
+      render status: :unprocessable_entity, json: { error: @public_record.errors }
     end
   end
 
@@ -51,7 +57,7 @@ class Api::V1::RecordsController < Api::V1::BaseController
       @record = current_user.records.find(params[:id])
     end
 
-    def find_public_record!
+    def find_record!
       @public_record = Record.find_by_slug(params[:slug])
     end
 

@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import API from "apis/records";
 
 const PublicUrl = () => {
 	const { slug } = useParams();
-  const [url, setUrl] = useState("");
-  const [filename, setFilename] = useState("");
 
 	const getOriginalLinkBySlug = async () => {
 		try {
-			await API.show(slug);
+			const { data } = await API.show(slug);
+			if (data.url) {
+				var a = document.createElement("a");
+				a.href = data.url;
+				a.download = data.filename;
+				a.rel = "noreferrer noopener";
+				a.click();
+				window.URL.revokeObjectURL(data.url);
+				setTimeout(() => window.close(), 5000);
+			}
 		} catch (error) {
 			console.log(error);
 		}
@@ -21,7 +28,7 @@ const PublicUrl = () => {
 	return (
 		<div className="mt-32 flex flex-col items-center justify-center">
 			<p className="py-12 text-3xl font-bold tracking-wide text-gray-400">
-				Your File is Ready to Download
+				The file is being downloaded...
 			</p>
 		</div>
 	);

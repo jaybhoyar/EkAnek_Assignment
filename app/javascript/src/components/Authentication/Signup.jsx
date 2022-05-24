@@ -29,6 +29,9 @@ const Signup = ({ history }) => {
     <div className="flex h-screen w-screen flex-row items-center justify-center overflow-y-auto overflow-x-hidden bg-gray-100 p-6">
       <div className="mx-auto flex h-full w-full flex-col items-center justify-center sm:max-w-md">
         <h2 className="mb-5 text-center text-3xl font-extrabold text-gray-800">
+					Welcome to File Upload Platform
+				</h2>
+        <h2 className="mb-5 text-center text-2xl font-extrabold text-gray-800">
           Signup
         </h2>
         <Formik
